@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id      String  @id @default(uuid())
+  title   String
+  content String?
+  image   Image?
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("article")
+}
+
+model Image {
+  id        String @id @default(uuid())
+  url       String
+  publicId  String
+  format    String
+  version   String
+  signature String
+
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String  @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id       String    @id @unique
+  name     String
+  email    String?   @unique
+  username String?   @unique
+  session  Session[]
+  Key      Key[]
+  article  Article[]
+
+  @@map("user")
+}
+
+model Session {
+  id             String @id @unique
+  user_id        String
+  active_expires BigInt
+  idle_expires   BigInt
+  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("session")
+}
+
+model Key {
+  id              String  @id @unique
+  hashed_password String?
+  user_id         String
+  primary         Boolean
+  expires         BigInt?
+  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("key")
+}

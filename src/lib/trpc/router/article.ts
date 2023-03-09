@@ -73,20 +73,65 @@ export const articleRouter = createTRPCRouter({
 			return await prisma.article.findUnique({
 				where: {
 					id
+				},
+				include: {
+					image: true,
+					user: true
 				}
 			});
 		}),
 	updateArticle: protectedProcedure
 		.input(updateArticleSchema)
-		.mutation(async ({ input: { id, title, content }, ctx: { prisma } }) => {
-			return await prisma.article.update({
-				where: {
-					id
-				},
-				data: {
-					title,
-					content
+		.mutation(async ({ input: { id, title, content, image, publicId }, ctx: { prisma } }) => {
+			if (publicId) {
+				await destroy(publicId);
+				if (image) {
+					const { result } = await uploadImage(image as File, 'article');
+					return await prisma.article.update({
+						where: {
+							id
+						},
+						data: {
+							title,
+							content,
+							image: {
+								update: {
+									url: result.url,
+									publicId: result.public_id,
+									format: result.format,
+									version: result.version.toString(),
+									signature: result.signature
+								}
+							}
+						}
+					});
 				}
+			} else {
+				if (image) {
+					const { result } = await uploadImage(image as File, 'article');
+					return await prisma.article.update({
+						where: {
+							id
+						},
+						data: {
+							title,
+							content,
+							image: {
+								create: {
+									url: result.url,
+									publicId: result.public_id,
+									format: result.format,
+									version: result.version.toString(),
+									signature: result.signature
+								}
+							}
+						}
+					});
+				}
+			}
+			return await prisma.article.update({
+				where: { id },
+				data: { title, content }
 			});
 		})
 });

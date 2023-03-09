@@ -10,5 +10,7 @@ export const articleSchema = zfd.formData({
 export const updateArticleSchema = zfd.formData({
 	id: zfd.text(z.string()),
 	title: zfd.text(z.string({ required_error: 'Title is required' })),
-	content: z.nullable(z.string())
+	content: z.nullable(z.string()),
+	publicId: z.nullable(z.string()),
+	image: z.optional(zfd.file())
 });

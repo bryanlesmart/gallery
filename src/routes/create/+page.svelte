@@ -27,9 +27,13 @@
 		if (!image) return;
 		uploadedImage = URL.createObjectURL(image);
 	};
+
+	let tags: string[];
 </script>
 
 <section class="text-gray-600 body-font">
+	{tags}
+	<input type="text" bind:value={tags} name="tags" class="border-red-700" />
 	<div class="container px-5 py-24 mx-auto flex flex-wrap">
 		<div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
 			{#if uploadedImage}

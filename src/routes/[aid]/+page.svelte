@@ -12,7 +12,7 @@
 
 		if (files.length > 0) {
 			const src = URL.createObjectURL(files[0]);
-			const preview = document.getElementById('avatar-preview') as HTMLImageElement;
+			const preview = document.getElementById('image') as HTMLImageElement;
 			preview.src = src;
 			preview.style.display = 'block';
 		}
@@ -36,15 +36,11 @@
 		<div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
 			{#if data?.article?.image}
 				<figure>
-					<img
-						id="avatar-preview"
-						src={data?.article?.image?.url}
-						alt={data.article.image.publicId}
-					/>
+					<img id="image" src={data?.article?.image?.url} alt={data.article.image.publicId} />
 				</figure>
 			{:else}
 				<figure>
-					<img id="avatar-preview" src={NoPhoto} alt="Avatar" />
+					<img id="image" src={NoPhoto} alt="Avatar" />
 				</figure>
 			{/if}
 		</div>

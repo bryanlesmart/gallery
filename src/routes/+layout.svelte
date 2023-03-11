@@ -8,9 +8,9 @@
 	<title>Gallery</title>
 </svelte:head>
 
-<Toaster />
 <Navbar />
 <main>
+	<Toaster />
 	<slot />
 </main>
 

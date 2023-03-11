@@ -1,5 +1,6 @@
 <script>
 	import Navbar from '$lib/components/Navbar.svelte';
+	import { Toaster } from 'svelte-french-toast';
 
 	import '../app.postcss';
 </script>
@@ -10,6 +11,7 @@
 
 <Navbar />
 <main>
+	<Toaster />
 	<slot />
 </main>
 

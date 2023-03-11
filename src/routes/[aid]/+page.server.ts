@@ -19,7 +19,7 @@ export const actions: Actions = {
 		const image = formData.get('image') as File | null;
 
 		// Remove image from body if empty or zero
-		if (!image || image.length === 0) {
+		if (!image === null || image?.length === 0) {
 			formData.delete('image');
 		}
 
@@ -50,7 +50,6 @@ export const actions: Actions = {
 			console.log(e);
 			return handleActionErrors(e, articleBody);
 		}
-
 		throw redirect(302, '/');
 	}
 };

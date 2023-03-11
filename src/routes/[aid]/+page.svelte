@@ -3,6 +3,7 @@
 	import type { ActionData, PageData } from './$types';
 	import NoPhoto from '$lib/assets/no-photo.jpg';
 	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
+	import toast, { Toaster } from 'svelte-french-toast';
 	export let data: PageData;
 	export let form: ActionData;
 
@@ -22,14 +23,18 @@
 		return async ({ result, update }) => {
 			switch (result.type) {
 				case 'success':
+					toast.success('Updated Successfully');
 					break;
 				case 'failure':
 					await applyAction(result);
 					break;
 			}
+			await update();
 		};
 	};
 </script>
+
+<Toaster />
 
 <section class="text-gray-600 body-font">
 	<div class="container px-5 py-24 mx-auto flex flex-wrap">

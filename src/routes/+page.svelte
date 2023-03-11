@@ -5,6 +5,7 @@
 	import { onDestroy } from 'svelte';
 	import type { User } from '@prisma/client';
 	export let data: PageData;
+	import { Toaster } from 'svelte-french-toast';
 	type Gallery = {
 		title: string;
 		id: string;
@@ -25,6 +26,7 @@
 	});
 </script>
 
+<Toaster />
 <div class="container px-5 py-24 mx-auto">
 	<div class="flex flex-col text-center w-full mb-20">
 		<div class="container">
@@ -36,14 +38,14 @@
 				bind:value={$searchStore.search}
 			/>
 		</div>
-		<section class="text-gray-600 body-font">
-			<div class="container px-5 py-24 mx-auto">
-				<div class="flex flex-wrap -m-4">
-					{#each $searchStore.filtered as article}
-						<Card {article} />
-					{/each}
-				</div>
-			</div>
-		</section>
 	</div>
+	<section class="text-gray-600 body-font ">
+		<div class="container px-5 py-24 mx-auto">
+			<div class="flex flex-wrap -m-4">
+				{#each $searchStore.filtered as article}
+					<Card {article} />
+				{/each}
+			</div>
+		</div>
+	</section>
 </div>

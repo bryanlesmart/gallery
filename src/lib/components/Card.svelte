@@ -2,10 +2,11 @@
 	import { page } from '$app/stores';
 	import type { Article } from '$lib/utils/types/';
 	import NoPhoto from '$lib/assets/no-photo.jpg';
+	import { fly } from 'svelte/transition';
 	export let article: Article;
 </script>
 
-<div class="p-4 md:w-1/3">
+<div class="p-4 md:w-1/3" transition:fly={{ y: 200, duration: 2000 }}>
 	<div class="card w-96 bg-base-100 shadow-xl">
 		{#if article?.image}
 			<figure><img src={article?.image?.url} alt={article.title} /></figure>
@@ -17,7 +18,7 @@
 				{article.title}
 				<div class="badge badge-secondary">@{article?.user?.name}</div>
 			</h2>
-			<p>{article.content}</p>
+			<p class="items-start">{article.content}</p>
 			<div>
 				{#if article.userId === $page.data?.user?.userId}
 					<div class="badge badge-success text-white">
@@ -30,11 +31,11 @@
 					</div>
 				{/if}
 			</div>
-			<div class="card-actions justify-end">
+			<!-- <div class="card-actions justify-end">
 				<div class="badge badge-error text-white">Tags</div>
 				<div class="badge badge-error text-white">Tags</div>
 				<div class="badge badge-error text-white">Tags</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>

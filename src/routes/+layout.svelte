@@ -1,14 +1,18 @@
 <script>
 	import Navbar from '$lib/components/Navbar.svelte';
+	import { Toaster } from 'svelte-french-toast';
 	import '../app.postcss';
 </script>
 
 <svelte:head>
 	<title>Gallery</title>
 </svelte:head>
-<Navbar />
 
-<slot />
+<Toaster />
+<Navbar />
+<main>
+	<slot />
+</main>
 
 <!-- <section class="overflow-hidden text-neutral-700">
 	<div class="container mx-auto px-5 py-2 lg:px-32 lg:pt-24">

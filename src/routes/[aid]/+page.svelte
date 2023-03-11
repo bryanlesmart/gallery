@@ -2,22 +2,60 @@
 	import Input from '$lib/components/form/Input.svelte';
 	import type { ActionData, PageData } from './$types';
 	import NoPhoto from '$lib/assets/no-photo.jpg';
+	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
 	export let data: PageData;
 	export let form: ActionData;
+
+	const showPreview = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		const files = target.files as FileList;
+
+		if (files.length > 0) {
+			const src = URL.createObjectURL(files[0]);
+			const preview = document.getElementById('avatar-preview') as HTMLImageElement;
+			preview.src = src;
+			preview.style.display = 'block';
+		}
+	};
+
+	const updateForm: SubmitFunction = async () => {
+		return async ({ result, update }) => {
+			switch (result.type) {
+				case 'success':
+					break;
+				case 'failure':
+					await applyAction(result);
+					break;
+			}
+		};
+	};
 </script>
 
 <section class="text-gray-600 body-font">
 	<div class="container px-5 py-24 mx-auto flex flex-wrap">
 		<div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
 			{#if data?.article?.image}
-				<figure><img src={data?.article?.image?.url} alt={data?.article?.title} /></figure>
+				<figure>
+					<img
+						id="avatar-preview"
+						src={data?.article?.image?.url}
+						alt={data.article.image.publicId}
+					/>
+				</figure>
 			{:else}
-				<figure><img src={NoPhoto} alt="no_photo" /></figure>
+				<figure>
+					<img id="avatar-preview" src={NoPhoto} alt="Avatar" />
+				</figure>
 			{/if}
 		</div>
 		<div class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
 			{#if data.user}
-				<form action="?/updateArticle" method="post" enctype="multipart/form-data">
+				<form
+					action="?/updateArticle"
+					method="post"
+					enctype="multipart/form-data"
+					use:enhance={updateForm}
+				>
 					<Input
 						label="Title"
 						name="title"
@@ -43,6 +81,7 @@
 							value={data?.article?.image?.publicId ?? ''}
 						/>
 						<input
+							on:change={showPreview}
 							type="file"
 							name="image"
 							id="image"

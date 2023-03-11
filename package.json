@@ -44,6 +44,7 @@
 		"cloudinary": "^1.35.0",
 		"lucia-auth": "^0.8.0",
 		"prisma": "^4.11.0",
+		"svelte-french-toast": "^1.0.3",
 		"trpc-sveltekit": "^3.4.2",
 		"zod": "^3.21.1"
 	}

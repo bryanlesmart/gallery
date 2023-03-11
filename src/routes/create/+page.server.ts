@@ -4,7 +4,7 @@ import { router } from '$lib/trpc/root';
 import { handleActionErrors } from '$lib/utils';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load = (async ({locals}) => {
+export const load = (async ({ locals }) => {
 	const session = await locals.validate();
 	if (!session) throw redirect(303, '/');
 }) satisfies PageServerLoad;

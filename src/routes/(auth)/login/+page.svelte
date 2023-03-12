@@ -59,6 +59,3 @@
 		</div>
 	</div>
 {/if}
-
-<!-- <a href="/api/oauth?provider=github" class="btn">Github</a>
-<a href="/api/oauth?provider=discord" class="btn">Discord</a> -->

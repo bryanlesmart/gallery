@@ -60,22 +60,3 @@ export async function destroy(path: string) {
 		console.log(result, error);
 	});
 }
-
-/** 
-console.log(result);
-const public_id = result.public_id;
-const parts = public_id.split('/');
-const lastPart = parts[parts.length - 1];
-console.log(lastPart);
-await destroy(public_id);
-
-
-const imageTypes = [
-	'image/jpeg',
-	'image/jpg',
-	'image/png',
-	'image/webp',
-	'image/svg+xml',
-	'image/gif'
-];
-*/

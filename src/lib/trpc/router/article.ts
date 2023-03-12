@@ -55,7 +55,7 @@ export const articleRouter = createTRPCRouter({
 					image: true
 				}
 			});
-			console.log(article?.image?.publicId);
+
 			await destroy(article?.image?.publicId as string);
 			return await prisma.article.delete({
 				where: {

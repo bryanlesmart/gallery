@@ -24,6 +24,7 @@
 			switch (result.type) {
 				case 'success':
 					toast.success('Updated Successfully');
+					await update();
 					break;
 				case 'failure':
 					await applyAction(result);

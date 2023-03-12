@@ -11,13 +11,20 @@ export const load: PageServerLoad = async (event) => {
 	};
 };
 
+type ArticleForm = {
+	id: string;
+	publicId?: string;
+	title: string;
+	content?: string;
+	image?: File;
+};
+
 export const actions: Actions = {
 	updateArticle: async (event) => {
 		const formData = await event.request.formData();
 		const body: { [key: string]: unknown } = {};
 
 		const image = formData.get('image') as File | null;
-
 		// Remove image from body if empty or zero
 		if (!image === null || image?.length === 0) {
 			formData.delete('image');
@@ -42,7 +49,7 @@ export const actions: Actions = {
 			title: string;
 			content?: string;
 			image?: File;
-		} = body as never;
+		} = body as ArticleForm;
 
 		try {
 			await router.createCaller(await createContext(event)).article.updateArticle(articleBody);

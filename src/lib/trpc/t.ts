@@ -29,32 +29,3 @@ const auth = t.middleware(async ({ ctx, next }) => {
 });
 
 export const protectedProcedure = t.procedure.use(auth);
-
-/**
- * 
- * createArticle: protectedProcedure
-		.input(articleSchema)
-		.mutation(async ({ input: { title, content, image }, ctx: { prisma, session } }) => {
-			const data = {
-				userId: session.userId,
-				title,
-				content
-			};
-			if (image) {
-				const { result } = await uploadImage(image as File, 'article');
-				data['image'] = {
-					create: {
-						url: result.url,
-						publicId: result.public_id,
-						format: result.format,
-						version: result.version.toString(),
-						signature: result.signature
-					}
-				};
-			}
-			return await prisma.article.create({
-				data
-			});
-		}),
- * 
- */

@@ -9,6 +9,13 @@ export const load = (async ({ locals }) => {
 	if (!session) throw redirect(303, '/');
 }) satisfies PageServerLoad;
 
+type ArticleForm = {
+	userId: string;
+	title: string;
+	content?: string;
+	image?: File;
+};
+
 export const actions: Actions = {
 	createArticle: async (event) => {
 		const formData = await event.request.formData();
@@ -35,12 +42,11 @@ export const actions: Actions = {
 			}
 		}
 		const articleBody: { userId: string; title: string; content?: string; image?: File } =
-			body as never;
+			body as ArticleForm;
 
 		try {
 			await router.createCaller(await createContext(event)).article.createArticle(articleBody);
 		} catch (e) {
-			console.log(e);
 			return handleActionErrors(e, articleBody);
 		}
 
